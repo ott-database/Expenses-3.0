@@ -32,7 +32,6 @@ const useSellerLogicsForPrintPage = ({
 }: IProps) => {
     const sellerOptions = seller?.map(({ userName }) => userName) ?? [];
     const selectedSeller = expenses?.filter(({ user }) => user?.userName === sellectedSeller);
-
     // Extract the list of item names from the selected seller
     const sellerItems = selectedSeller?.flatMap(({ item }) => item.name) ?? [];
 
@@ -76,7 +75,8 @@ const useSellerLogicsForPrintPage = ({
             return filteredData
                 .map(({ item, quantity, amount }) => ({
                     item: item.name,
-                    quantity,
+                    //NOTE: quantity is not serializable for Now UnComment when it is needed
+                    quantity, 
                     totalTK: amount,
                 }))
                 .reduce((acc: IItemPrintOut[], curr) => {
@@ -112,7 +112,6 @@ const useSellerLogicsForPrintPage = ({
                 return acc;
             }, []);
     }, [sellectedSeller, selectedItem, expenses, activeTab, fromDate, toDate]);
-
     const totalQuantity = listItems.reduce((total, item) => total + item.quantity, 0);
     const totalTK = listItems.reduce((total, item) => total + item.totalTK, 0);
 
