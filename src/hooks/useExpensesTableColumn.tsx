@@ -154,7 +154,13 @@ const useExpensesTableColumn = ({
             {
                 accessorKey: 'quantity',
                 header: () => <h2 className='font-bold'>Quantity</h2>,
-                cell: ({ row }) => <p className=' font-medium'>{row.getValue('quantity')}</p>,
+                cell: ({ row }) => {
+                    const quantity = row.original.quantity;
+                    const displayQuantity =
+                        quantity % 1 === 0 ? quantity : Number(quantity).toFixed(1);
+
+                    return <p className='font-medium'>{displayQuantity}</p>;
+                },
             },
             {
                 accessorKey: 'Accounts.accountName',
