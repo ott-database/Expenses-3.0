@@ -23,9 +23,8 @@ export const tryCatch = async <T>(
                 [SECURITY_HEADER_NAME]: REQUIRED_SECURITY_KEY,
                 ...options?.headers,
             },
-            // TODO : Change this to 'no-store'
-            // cache: 'no-store',
-            next: { revalidate: 60 },
+            cache: 'no-store',
+            // next: { revalidate: 60 },
             body: body ? JSON.stringify(body) : undefined,
             ...options,
         });

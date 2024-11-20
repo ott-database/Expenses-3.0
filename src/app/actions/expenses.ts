@@ -50,6 +50,8 @@ export const getExpensesAction = async () => {
         return { success: false, message: 'Failed to fetch expenses. Please try again later.' };
     }
     revalidatePath('/');
+    revalidatePath('/dashboard/print');
+
     return {
         success: true,
         data: res?.data,
