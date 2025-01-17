@@ -84,14 +84,14 @@ const AddExpenses: FC<IProps> = ({ activeTab, items, origins, accounts, user }) 
             placeholder: 'Select the origin',
             disabled: !selectedItem,
         },
-        {
-            name: 'account',
-            fieldType: 'select',
-            options: accountsOptions,
-            validation: z.string().min(1, { message: 'Please select an account.' }),
-            label: 'Account',
-            placeholder: 'Select the account',
-        },
+        // {
+        //     name: 'account',
+        //     fieldType: 'select',
+        //     options: accountsOptions,
+        //     validation: z.string().min(1, { message: 'Please select an account.' }),
+        //     label: 'Account',
+        //     placeholder: 'Select the account',
+        // },
         {
             name: 'quantity',
             fieldType: 'input',
