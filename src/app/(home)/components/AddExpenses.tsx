@@ -39,11 +39,11 @@ const AddExpenses: FC<IProps> = ({ activeTab, items, origins, accounts, user }) 
         origins?.filter((origin) => origin?.item.name === selectedItem)?.map(({ name }) => name) ||
         [];
 
-    const accountsOptions = accounts?.map((account) => ({
-        id: account.id,
-        name: account.accountName,
-        balance: account.balance,
-    }));
+    // const accountsOptions = accounts?.map((account) => ({
+    //     id: account.id,
+    //     name: account.accountName,
+    //     balance: account.balance,
+    // }));
     const FORM_FIELDS: FormFieldConfig[] = [
         {
             name: 'seller',

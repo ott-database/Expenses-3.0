@@ -1,9 +1,10 @@
 import React from 'react';
-import { getAccounts } from '@/app/actions/accounts';
-import { TAccountResponse } from '@/app/api/accounts/types';
-import { AddAccountsContianer } from './components';
 
-const AddAccountsPage = async () => {
+// import { getAccounts } from '@/app/actions/accounts';
+// import { TAccountResponse } from '@/app/api/accounts/types';
+// import { AddAccountsContianer } from './components';
+
+const AddAccountsPage = () => {
     // const response = await getAccounts();
     // if (response) {
     //     if ('success' in response && !response.success) {
@@ -12,7 +13,7 @@ const AddAccountsPage = async () => {
     //     }
     // }
     // return <AddAccountsContianer data={(response as TAccountResponse[]) ?? []} />;
-    return <div></div>
+    return <div></div>;
 };
 
 export default AddAccountsPage;

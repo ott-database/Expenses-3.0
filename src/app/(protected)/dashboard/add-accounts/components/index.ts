@@ -1,1 +1,1 @@
-export {default as AddAccountsContianer} from './AddAccountsContianer'
+export { default as AddAccountsContianer } from './AddAccountsContianer';

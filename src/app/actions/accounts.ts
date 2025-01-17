@@ -5,9 +5,8 @@ import { tryCatch } from '@/http';
 import { revalidatePath } from 'next/cache';
 import { TAccountPayload, TAccountResponse } from '../api/accounts/types';
 
-
 export type TAccount = { data: TAccountResponse[]; success: boolean; message: string };
-type TAddAccount = { success: boolean; message: string; data: TAccountResponse};
+type TAddAccount = { success: boolean; message: string; data: TAccountResponse };
 export const addAccaunts = async (payload: TAccountPayload) => {
     const [data, error] = await tryCatch<TAddAccount>(`${API_BASE_URL}/accounts`, payload, {
         method: 'POST',

@@ -4,7 +4,6 @@ import { twMerge } from 'tailwind-merge';
 import { TExpenses } from '@/types/expenses';
 import { buy, sell } from '@/app/(home)/static';
 
-
 export * from './timeZone';
 export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs));
@@ -21,7 +20,6 @@ export function formatDate(date: Date) {
 
     return new Intl.DateTimeFormat('en-US', options).format(date);
 }
-
 
 const filterAndSum = (data: TExpenses[], type: string, key: keyof TExpenses) => {
     return data
@@ -47,7 +45,6 @@ const filterAndSum = (data: TExpenses[], type: string, key: keyof TExpenses) => 
         }, new Prisma.Decimal(0)) // Initialize accumulator as a Prisma.Decimal
         .toNumber(); // Convert the result back to a number (or use .toString() if needed)
 };
-
 
 export function calcutalateExpenses(data: TExpenses[]) {
     const totalSell = filterAndSum(data, sell, 'amount');

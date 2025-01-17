@@ -44,12 +44,12 @@ const EditExpenseForm: FC<EditExpenseFormProps> = ({
         origins?.filter((origin) => origin?.item.name === selectedItem)?.map(({ name }) => name) ||
         [];
 
-    const accountsOptions = accounts?.map((account) => ({
-        id: account.id,
-        name: account.accountName,
-        balance: account.balance,
-    }));
-    const findAccount = accountsOptions?.find((account) => account.id === expense.accountId);
+    // const accountsOptions = accounts?.map((account) => ({
+    //     id: account.id,
+    //     name: account.accountName,
+    //     balance: account.balance,
+    // }));
+    // const findAccount = accountsOptions?.find((account) => account.id === expense.accountId);
     const FORM_FIELDS: FormFieldConfig[] = [
         {
             name: 'type',

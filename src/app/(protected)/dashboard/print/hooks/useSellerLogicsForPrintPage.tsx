@@ -76,7 +76,7 @@ const useSellerLogicsForPrintPage = ({
                 .map(({ item, quantity, amount }) => ({
                     item: item.name,
                     //NOTE: quantity is not serializable for Now UnComment when it is needed
-                    quantity, 
+                    quantity,
                     totalTK: amount,
                 }))
                 .reduce((acc: IItemPrintOut[], curr) => {
