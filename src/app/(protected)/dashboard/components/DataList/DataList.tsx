@@ -3,6 +3,7 @@ import React, { FC } from 'react';
 import { Item } from '@/types/items';
 import { cn } from '@/lib/utils';
 import { Card, CardContent } from '@/components/ui/card';
+import { TAccountResponse } from '@/app/api/accounts/types';
 import {
     DeleteData,
     EditAccountsData,
@@ -11,7 +12,6 @@ import {
     EditSellerData,
 } from '.';
 import { TItem } from '../../add-items/components/AddItemsContianer';
-import { TAccountResponse } from '@/app/api/accounts/types';
 
 export type TListItem =
     | TAccountResponse
@@ -34,7 +34,7 @@ interface IProps {
     data: TListItem[];
     heading: string;
     onDelete?: (id: string) => void;
-    onEdit: (payload: TListItem) =>  Promise<void>;
+    onEdit: (payload: TListItem) => Promise<void>;
     itemOptions?: Item[];
     originOptions?: Item[];
     CardContainerClass?: string;
@@ -92,7 +92,10 @@ const DataList: FC<IProps> = ({
                                             <p>{item.balance.toLocaleString()}</p>
                                             <div className='flex gap-3 items-center justify-end'>
                                                 {onEdit && (
-                                                    <EditAccountsData account={item} onEdit={onEdit} />
+                                                    <EditAccountsData
+                                                        account={item}
+                                                        onEdit={onEdit}
+                                                    />
                                                 )}
                                                 {onDelete && (
                                                     <DeleteData onDelete={onDelete} id={item.id} />

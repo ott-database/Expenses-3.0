@@ -15,11 +15,11 @@ export function useFilteredExpenses(
                 const isMatchingTab = tab === 'all' || item.type === tab;
                 return isSameDate && isMatchingTab;
             });
-                  // Use toSorted if available, otherwise fallback to sort
-        return filtered?.[typeof filtered.toSorted === 'function' ? 'toSorted' : 'sort'](
-            (a, b) =>
-                new Date(b?.createdAt ?? '').getTime() - new Date(a?.createdAt ?? '').getTime(),
-        );
+            // Use toSorted if available, otherwise fallback to sort
+            return filtered?.[typeof filtered.toSorted === 'function' ? 'toSorted' : 'sort'](
+                (a, b) =>
+                    new Date(b?.createdAt ?? '').getTime() - new Date(a?.createdAt ?? '').getTime(),
+            );
         },
         [expensesData],
     );

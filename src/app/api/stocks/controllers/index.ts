@@ -1,7 +1,7 @@
+import { Prisma } from '@prisma/client';
 import { db, errorResponse, successResponse, zodErrorResponse } from '@/app/api/helpers';
 import { TStockPayload } from '../types';
 import { StockSchema } from '../validations';
-import { Prisma } from '@prisma/client';
 
 // Create a new stock entry
 export const onCreateStock = async (payload: TStockPayload) => {
@@ -24,7 +24,7 @@ export const onCreateStock = async (payload: TStockPayload) => {
             );
         }
 
-          // Create the stock entry with the quantity as Prisma.Decimal
+        // Create the stock entry with the quantity as Prisma.Decimal
         const stock = await db.stock.create({
             data: {
                 quantity: new Prisma.Decimal(payload.quantity), // Convert quantity to Decimal
@@ -72,7 +72,7 @@ export const onUpdateStock = async (id: string, payload: TStockPayload) => {
         const existingStock = await db.stock.findUnique({ where: { id } });
         if (!existingStock) return errorResponse('Stock entry not found', 404);
 
-       // Update the stock entry with the quantity as Prisma.Decimal
+        // Update the stock entry with the quantity as Prisma.Decimal
         const stock = await db.stock.update({
             where: { id },
             data: {

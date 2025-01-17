@@ -91,9 +91,12 @@ const ProfileSettings: FC<IProps> = ({ className, ...rest }) => {
             <Button
                 {...rest}
                 variant='outline'
-                className={cn('absolute bottom-[85px] left-1/2 -translate-x-1/2 w-10/12 dark:hover:bg-gray-800', {
-                    className,
-                })}
+                className={cn(
+                    'absolute bottom-[85px] left-1/2 -translate-x-1/2 w-10/12 dark:hover:bg-gray-800',
+                    {
+                        className,
+                    },
+                )}
                 onClick={() => setIsDialogOpen(true)}
             >
                 Profile Settings

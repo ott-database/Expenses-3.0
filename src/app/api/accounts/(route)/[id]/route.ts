@@ -1,8 +1,7 @@
 import { NextRequest } from 'next/server';
 import { errorResponse } from '@/app/api/helpers';
-import { onFindAccount, onUpdateAccount, onDeleteAccount } from '../../controllers';
+import { onDeleteAccount, onFindAccount, onUpdateAccount } from '../../controllers';
 import { TAccountPayload } from '../../types';
-
 
 // Get Account by ID
 export const GET = async (req: NextRequest, { params }: { params: { id: string } }) => {
