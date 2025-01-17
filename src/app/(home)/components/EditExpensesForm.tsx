@@ -44,12 +44,12 @@ const EditExpenseForm: FC<EditExpenseFormProps> = ({
         origins?.filter((origin) => origin?.item.name === selectedItem)?.map(({ name }) => name) ||
         [];
 
-    const accountsOptions = accounts?.map((account) => ({
-        id: account.id,
-        name: account.accountName,
-        balance: account.balance,
-    }));
-    const findAccount = accountsOptions?.find((account) => account.id === expense.accountId);
+    // const accountsOptions = accounts?.map((account) => ({
+    //     id: account.id,
+    //     name: account.accountName,
+    //     balance: account.balance,
+    // }));
+    // const findAccount = accountsOptions?.find((account) => account.id === expense.accountId);
     const FORM_FIELDS: FormFieldConfig[] = [
         {
             name: 'type',
@@ -81,15 +81,15 @@ const EditExpenseForm: FC<EditExpenseFormProps> = ({
             value: origins?.find((origin) => origin.id === expense.originId)?.name,
             disabled: !selectedItem,
         },
-        {
-            name: 'account',
-            fieldType: 'select',
-            options: accountsOptions,
-            validation: z.string().min(1, { message: 'Please select an account.' }),
-            label: 'Account',
-            value: findAccount?.name,
-            placeholder: 'Select the account',
-        },
+        // {
+        //     name: 'account',
+        //     fieldType: 'select',
+        //     options: accountsOptions,
+        //     validation: z.string().min(1, { message: 'Please select an account.' }),
+        //     label: 'Account',
+        //     value: findAccount?.name,
+        //     placeholder: 'Select the account',
+        // },
         {
             name: 'quantity',
             fieldType: 'input',

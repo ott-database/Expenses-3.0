@@ -27,10 +27,10 @@ const menu = [
         label: 'Add Stock',
         path: '/dashboard/add-stock',
     },
-    {
-        label: 'Add Accounts',
-        path: '/dashboard/add-accounts',
-    },
+    // {
+    //     label: 'Add Accounts',
+    //     path: '/dashboard/add-accounts',
+    // },
     {
         label: 'Print out',
         path: '/dashboard/print',
