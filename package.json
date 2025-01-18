@@ -13,7 +13,8 @@
         "postinstall": "prisma generate",
         "db:push": "prisma db push",
         "db:migrate": "prisma migrate dev --name",
-        "prisma:generate": "prisma generate"
+        "prisma:generate": "prisma generate",
+        "seed": "bun src\\app\\seed.ts"
     },
     "dependencies": {
         "@hookform/resolvers": "^3.9.0",
