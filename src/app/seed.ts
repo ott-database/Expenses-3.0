@@ -52,6 +52,6 @@ main()
         console.error('Error seeding data:', error);
         process.exit(1);
     })
-    .finally(async () => {
-        await prisma.$disconnect();
-    });
+    // .finally(async () => {
+    //     await prisma.$disconnect();
+    // });
