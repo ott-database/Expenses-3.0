@@ -48,17 +48,17 @@ export const onCreateExpense = async (payload: TExpensePayload) => {
             if (!stock)
                 return errorResponse('Stock not found for the specified item and origin.', 400);
 
-            const accounts = await prisma.account.findUnique({
-                where: { id: payload.accountId },
-            });
+            // const accounts = await prisma.account.findUnique({
+            //     where: { id: payload.accountId },
+            // });
 
-            if (!accounts) return errorResponse('Account not found', 400);
+            // if (!accounts) return errorResponse('Account not found', 400);
             // Check stock based on the type of expense
             let updatedStockQuantity;
             const stockQuantity = new Prisma.Decimal(stock.quantity);
             const payloadQuantity = new Prisma.Decimal(payload.quantity);
             // new balance
-            let newBalance = 0;
+            // let newBalance = 0;
             if (payload.type === sell) {
                 if (stockQuantity.equals(0) || stockQuantity.lessThan(payloadQuantity)) {
                     return errorResponse(
@@ -67,16 +67,13 @@ export const onCreateExpense = async (payload: TExpensePayload) => {
                     );
                 }
                 //  add the account balance according to the expense amount
-                newBalance = accounts.balance + payload.amount;
+                // newBalance = accounts.balance + payload.amount;
                 // Deduct the sold quantity from the stock
                 updatedStockQuantity = stockQuantity.minus(payloadQuantity);
             } else if (payload.type === buy) {
                 // Increment the stock quantity for the purchased items
-                console.log(
-                    `'stock' ${Number(stockQuantity)}stockQuantity} + 'payload'  ${Number(payloadQuantity)}`,
-                );
                 // minus the account balance according to the expense amount
-                newBalance = accounts.balance - payload.amount;
+                // newBalance = accounts.balance - payload.amount;
                 // Add the purchased quantity to the stock
                 updatedStockQuantity = stockQuantity.plus(payloadQuantity);
             }
@@ -87,10 +84,10 @@ export const onCreateExpense = async (payload: TExpensePayload) => {
                 data: { quantity: updatedStockQuantity },
             });
             // update account balance
-            await prisma.account.update({
-                where: { id: payload.accountId },
-                data: { balance: newBalance },
-            });
+            // await prisma.account.update({
+            //     where: { id: payload.accountId },
+            //     data: { balance: newBalance },
+            // });
 
             //======================= Avg Rate Calculation ========================================//
             // Calculate the average rate for the current item
@@ -122,6 +119,8 @@ export const onCreateExpense = async (payload: TExpensePayload) => {
             const avgRate = totalQuantity.gt(0)
                 ? new Prisma.Decimal(totalAmount).div(totalQuantity).toDecimalPlaces(2)
                 : new Prisma.Decimal(0);
+            //NOTE: This account will be temporary for now if the account feature is needed then remove the getAccounts and use accountId from payload
+            const getAccounts = await prisma.account.findMany({});
             // Create the expense entry with the stock reference and calculated avgRate
             const expense = await prisma.expenses.create({
                 data: {
@@ -129,6 +128,7 @@ export const onCreateExpense = async (payload: TExpensePayload) => {
                     sl_no,
                     stock: Number(updatedStockQuantity),
                     avgRate,
+                    accountId: getAccounts[0].id,
                 },
             });
 
@@ -137,6 +137,7 @@ export const onCreateExpense = async (payload: TExpensePayload) => {
 
         return successResponse(result, 'Expense created and stock updated successfully');
     } catch (error) {
+        console.log('🚀 > onCreateExpense > error:', error);
         return errorResponse('Internal server error', 500);
     }
 };
@@ -209,61 +210,61 @@ export const onUpdateExpense = async (id: string, payload: TExpensePayload) => {
             if (!existingExpense) return errorResponse('Expense entry not found', 404);
 
             // Step 2: Fetch both accounts - existing and new
-            const existingAccount = await prisma.account.findUnique({
-                where: { id: existingExpense.accountId },
-            });
-            const newAccount = await prisma.account.findUnique({
-                where: { id: payload.accountId },
-            });
+            // const existingAccount = await prisma.account.findUnique({
+            //     where: { id: existingExpense.accountId },
+            // });
+            // const newAccount = await prisma.account.findUnique({
+            //     where: { id: payload.accountId },
+            // });
 
             // if (!existingAccount) return errorResponse('Existing account not found', 400);
-            if (!newAccount) return errorResponse('New account not found', 400);
+            // if (!newAccount) return errorResponse('New account not found', 400);
 
             // Step 3: Revert balance on the existing account if the account ID has changed
-            if (existingExpense.accountId !== payload.accountId) {
-                // Revert balance in the existing account
-                let revertedBalance = existingAccount?.balance ?? 0;
-                if (existingExpense.type === sell) {
-                    revertedBalance -= existingExpense.amount;
-                } else if (existingExpense.type === buy) {
-                    revertedBalance += existingExpense.amount;
-                }
-                await prisma.account.update({
-                    where: { id: existingExpense.accountId },
-                    data: { balance: revertedBalance },
-                });
+            // if (existingExpense.accountId !== payload.accountId) {
+            //     // Revert balance in the existing account
+            //     let revertedBalance = existingAccount?.balance ?? 0;
+            //     if (existingExpense.type === sell) {
+            //         revertedBalance -= existingExpense.amount;
+            //     } else if (existingExpense.type === buy) {
+            //         revertedBalance += existingExpense.amount;
+            //     }
+            //     await prisma.account.update({
+            //         where: { id: existingExpense.accountId },
+            //         data: { balance: revertedBalance },
+            //     });
 
-                // Update balance on the new account
-                let newBalance = newAccount.balance;
-                if (payload.type === sell) {
-                    newBalance += payload.amount;
-                } else if (payload.type === buy) {
-                    newBalance -= payload.amount;
-                }
-                await prisma.account.update({
-                    where: { id: payload.accountId },
-                    data: { balance: newBalance },
-                });
-            } else {
-                // Adjust balance if only the amount or type has changed within the same account
-                let adjustedBalance = existingAccount?.balance ?? 0;
-                if (existingExpense.type === sell) {
-                    adjustedBalance -= existingExpense.amount;
-                } else if (existingExpense.type === buy) {
-                    adjustedBalance += existingExpense.amount;
-                }
+            //     // Update balance on the new account
+            //     let newBalance = newAccount.balance;
+            //     if (payload.type === sell) {
+            //         newBalance += payload.amount;
+            //     } else if (payload.type === buy) {
+            //         newBalance -= payload.amount;
+            //     }
+            //     await prisma.account.update({
+            //         where: { id: payload.accountId },
+            //         data: { balance: newBalance },
+            //     });
+            // } else {
+            //     // Adjust balance if only the amount or type has changed within the same account
+            //     let adjustedBalance = existingAccount?.balance ?? 0;
+            //     if (existingExpense.type === sell) {
+            //         adjustedBalance -= existingExpense.amount;
+            //     } else if (existingExpense.type === buy) {
+            //         adjustedBalance += existingExpense.amount;
+            //     }
 
-                if (payload.type === sell) {
-                    adjustedBalance += payload.amount;
-                } else if (payload.type === buy) {
-                    adjustedBalance -= payload.amount;
-                }
+            //     if (payload.type === sell) {
+            //         adjustedBalance += payload.amount;
+            //     } else if (payload.type === buy) {
+            //         adjustedBalance -= payload.amount;
+            //     }
 
-                await prisma.account.update({
-                    where: { id: payload.accountId },
-                    data: { balance: adjustedBalance },
-                });
-            }
+            //     await prisma.account.update({
+            //         where: { id: payload.accountId },
+            //         data: { balance: adjustedBalance },
+            //     });
+            // }
 
             // Step 4: Handle stock adjustments
             const oldStock = await prisma.stock.findFirst({
@@ -318,12 +319,14 @@ export const onUpdateExpense = async (id: string, payload: TExpensePayload) => {
             const newAvgRate = payloadQuantity.gt(0)
                 ? new Prisma.Decimal(payload.amount).div(payloadQuantity).toDecimalPlaces(2)
                 : new Prisma.Decimal(0);
-
+            //NOTE: This account will be temporary for now if the account feature is needed then remove the getAccounts and use accountId from payload
+            const getAccounts = await prisma.account.findMany({});
             // Step 5: Update the expense entry
             const updatedExpense = await prisma.expenses.update({
                 where: { id },
                 data: {
-                    accountId: payload.accountId,
+                    // accountId: payload.accountId,
+                    accountId: getAccounts[0].id,
                     type: payload.type,
                     itemId: payload.itemId,
                     originId: payload.originId,
